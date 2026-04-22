@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FashionBrand — Case Study / Danil Kopashevidze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F5F5;
+    --ink: #111111;
+    --mid: #666666;
+    --line: #DDDDDD;
+    --accent: #111111;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .logo { font-family: var(--serif); font-size: 15px; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink); }
+  nav .back { font-size: 11px; color: var(--mid); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  nav .back:hover { border-color: var(--mid); }
+
+  /* ── HERO ── */
+  .hero {
+    margin-top: 61px;
+    padding: 120px 48px 80px;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .hero-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    display: block;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .meta-item { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .meta-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 6px; }
+  .meta-value { font-size: 12px; }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--line);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .section-label span { white-space: nowrap; }
+
+  /* ── PROSE ── */
+  .prose {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .prose-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); padding-top: 3px; }
+  .prose-body { font-family: var(--serif); font-size: 20px; font-weight: 300; line-height: 1.6; }
+  .prose-body p + p { margin-top: 1em; }
+
+  /* ── CHALLENGE BOX ── */
+  .challenge-box {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px;
+    margin: 40px 0;
+  }
+  .challenge-box .quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+  .challenge-box .source { font-size: 11px; letter-spacing: 0.12em; color: #999; }
+
+  /* ── PROCESS STEPS ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 40px 0;
+  }
+  .step {
+    background: var(--bg);
+    padding: 32px 24px;
+  }
+  .step-num {
+    font-size: 10px; letter-spacing: 0.18em; color: var(--mid);
+    margin-bottom: 16px;
+  }
+  .step-title {
+    font-family: var(--serif);
+    font-size: 20px; font-weight: 300;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .step-body { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ── DECISIONS ── */
+  .decisions { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 40px 0; }
+  .decision {
+    background: var(--bg);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .decision-num { font-size: 10px; color: var(--mid); padding-top: 3px; }
+  .decision-q { font-family: var(--serif); font-size: 17px; font-weight: 300; font-style: italic; line-height: 1.4; }
+  .decision-a { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ── SCREENS GRID ── */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--line);
+    margin: 40px 0;
+  }
+  .screen-card {
+    background: var(--ink);
+    aspect-ratio: 4/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #444;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
+  }
+  .screen-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  }
+  .screen-card-label {
+    position: relative; z-index: 1;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: #555;
+    text-align: center;
+  }
+  .screen-card-title {
+    position: relative; z-index: 1;
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 300; font-style: italic;
+    color: #999;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* Mockup screens using CSS art */
+  .mockup {
+    position: absolute; inset: 16px;
+    border: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #0d0d0d;
+  }
+  .mockup-bar {
+    height: 28px;
+    background: #161616;
+    border-bottom: 1px solid #222;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .mockup-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; }
+  .mockup-body { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .mockup-hero-img {
+    flex: 2;
+    background: linear-gradient(160deg, #2a2a2a, #1a1a1a);
+    position: relative;
+    overflow: hidden;
+  }
+  .mockup-hero-img::after {
+    content: attr(data-label);
+    position: absolute; bottom: 8px; left: 8px;
+    font-size: 7px; letter-spacing: 0.1em;
+    color: #555; text-transform: uppercase;
+  }
+  .mockup-row { display: flex; gap: 4px; }
+  .mockup-block {
+    background: #1e1e1e;
+    border-radius: 1px;
+  }
+
+  /* ── REFLECTION ── */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 40px;
+  }
+  .reflection-card {
+    background: var(--bg);
+    padding: 32px;
+  }
+  .reflection-card.dark {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .reflection-icon { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+  .reflection-card.dark .reflection-icon { color: #666; }
+  .reflection-title {
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 300;
+    margin-bottom: 12px;
+  }
+  .reflection-body { font-size: 12px; color: var(--mid); line-height: 1.7; }
+  .reflection-card.dark .reflection-body { color: #888; }
+
+  /* ── FOOTER ── */
+  .case-footer {
+    padding: 64px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .case-footer-text { font-family: var(--serif); font-size: 28px; font-weight: 300; font-style: italic; }
+  .case-footer-link {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .case-footer-link:hover { opacity: 0.5; }
+
+  /* ── TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .tag {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    color: var(--mid);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .hero { padding: 80px 24px 48px; grid-template-columns: 1fr; gap: 40px; }
+    .section { padding: 48px 24px; }
+    .prose { grid-template-columns: 1fr; gap: 16px; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .screens-grid { grid-template-columns: 1fr 1fr; }
+    .reflection-grid { grid-template-columns: 1fr; }
+    .decision { grid-template-columns: 1fr; }
+    .case-footer { flex-direction: column; gap: 24px; text-align: center; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">D. Kopashevidze</a>
+  <a class="back" href="https://portfolio-website-6f4cdd.webflow.io/">← Back to portfolio</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-label">Case Study — 001</div>
+    <h1>Fashion<br><em>Brand</em></h1>
+    <div class="tags">
+      <span class="tag">E-commerce</span>
+      <span class="tag">UX Design</span>
+      <span class="tag">UI Design</span>
+      <span class="tag">Design System</span>
+      <span class="tag">Responsive</span>
+    </div>
+  </div>
+  <div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">UX &amp; UI Designer</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Type</div>
+        <div class="meta-value">Client Project</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Deliverables</div>
+        <div class="meta-value">Full e-commerce design</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">Web — Desktop &amp; Mobile</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div style="max-width:1200px; margin:0 auto;">
+
+<section class="section fade-up">
+  <div class="section-label"><span>Overview</span></div>
+
+  <div class="prose">
+    <div class="prose-label">The Brief</div>
+    <div class="prose-body">
+      <p>A niche fashion brand approached me to design their e-commerce presence from the ground up. Their product is stripped-down, conceptual clothing — not trend-driven, not mass-market. The clothes are austere, sculptural, and rooted in raw honesty.</p>
+      <p>The challenge: translate that philosophy into a digital experience that feels just as intentional as the product itself.</p>
+    </div>
+  </div>
+
+  <div class="challenge-box">
+    <div class="quote">"Our vision is grounded in raw honesty and a refusal to chase trends. Each piece is stripped to its essential form — austere, sculptural, and unapologetically human."</div>
+    <div class="source">— Brand manifesto</div>
+  </div>
+
+  <div class="prose">
+    <div class="prose-label">The Challenge</div>
+    <div class="prose-body">
+      <p>Most fashion e-commerce follows the same playbook: big hero image, grid catalog, quick-add cart. But this brand isn't most fashion brands. Applying generic e-commerce patterns would actively undermine what makes it compelling.</p>
+      <p>The site needed to do two things simultaneously: sell clothes, and communicate a point of view.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section fade-up">
+  <div class="section-label"><span>Process</span></div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Brand<br>Analysis</div>
+      <div class="step-body">Deep reading of the brand manifesto and reference materials. Defining the visual language: what the site should feel like before a single pixel is placed.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">UX<br>Mapping</div>
+      <div class="step-body">Mapping the complete user journey — discovery, browsing, product selection, size picking, bag, checkout. Identifying where friction typically occurs in fashion e-commerce and how to reduce it.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Design<br>System</div>
+      <div class="step-body">Built a foundational system first — typography scale, color palette, spacing, components — to ensure consistency across every screen before designing individual pages.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Responsive<br>Design</div>
+      <div class="step-body">Every screen designed twice: desktop and mobile. Not just scaled down — reconsidered for touch, for smaller viewports, for different browsing contexts.</div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:48px;">
+    <div class="prose-label">Key Decisions</div>
+    <div class="prose-body">
+      <p>Every design decision was tested against one question: does this serve the brand's philosophy, or does it contradict it?</p>
+    </div>
+  </div>
+
+  <div class="decisions">
+    <div class="decision">
+      <div class="decision-num">—</div>
+      <div class="decision-q">Why minimal navigation rather than a traditional header menu?</div>
+      <div class="decision-a">The brand rejects noise. A sparse, typographic navigation forces focus onto the product. Every element that isn't essential to the journey is removed.</div>
+    </div>
+    <div class="decision">
+      <div class="decision-num">—</div>
+      <div class="decision-q">Why editorial-style imagery over standard product shots?</div>
+      <div class="decision-a">Generic catalog-style product photos would disconnect the clothing from its intended context. Editorial framing communicates how the pieces are meant to be worn and felt.</div>
+    </div>
+    <div class="decision">
+      <div class="decision-num">—</div>
+      <div class="decision-q">Why a dedicated Size Selection screen?</div>
+      <div class="decision-a">Size anxiety is one of the biggest conversion killers in fashion. A dedicated, unhurried size selection moment reduces friction and returns without cluttering the product page.</div>
+    </div>
+    <div class="decision">
+      <div class="decision-num">—</div>
+      <div class="decision-q">Why monochrome with the palest possible grey background?</div>
+      <div class="decision-a">The clothes are the color. Introducing competing hues into the interface would fight for attention. The background should be as neutral as possible — like a gallery wall.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section class="section fade-up">
+  <div class="section-label"><span>Screens Delivered</span></div>
+
+  <div class="prose">
+    <div class="prose-label">Scope</div>
+    <div class="prose-body">
+      <p>6 desktop screens + 5 mobile screens, plus a complete design system with reusable components. Full end-to-end coverage of the purchase journey.</p>
+    </div>
+  </div>
+
+  <div class="screens-grid">
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body">
+          <div class="mockup-hero-img" style="flex:3;" data-label="hero image"></div>
+          <div class="mockup-row">
+            <div class="mockup-block" style="flex:1;height:14px;"></div>
+            <div class="mockup-block" style="flex:2;height:14px;"></div>
+          </div>
+          <div class="mockup-row">
+            <div class="mockup-block" style="flex:1;height:60px;"></div>
+            <div class="mockup-block" style="flex:1;height:60px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">01</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Homepage</div>
+    </div>
+
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body">
+          <div class="mockup-row" style="margin-bottom:4px;">
+            <div class="mockup-block" style="flex:1;height:10px;"></div>
+            <div class="mockup-block" style="width:40px;height:10px;"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;flex:1;">
+            <div class="mockup-block"></div>
+            <div class="mockup-block"></div>
+            <div class="mockup-block"></div>
+            <div class="mockup-block"></div>
+            <div class="mockup-block"></div>
+            <div class="mockup-block"></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">02</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Catalog</div>
+    </div>
+
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body">
+          <div class="mockup-row" style="flex:1;gap:8px;">
+            <div class="mockup-hero-img" style="flex:1;" data-label="product"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+              <div class="mockup-block" style="height:10px;width:80%;"></div>
+              <div class="mockup-block" style="height:8px;width:50%;"></div>
+              <div style="flex:1;"></div>
+              <div class="mockup-block" style="height:8px;"></div>
+              <div class="mockup-block" style="height:8px;"></div>
+              <div class="mockup-block" style="height:24px;background:#333;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">03</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Product Page</div>
+    </div>
+
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body">
+          <div class="mockup-block" style="height:10px;width:60%;margin-bottom:8px;"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px;">
+            <div class="mockup-block" style="height:20px;"></div>
+            <div class="mockup-block" style="height:20px;"></div>
+            <div class="mockup-block" style="height:20px;"></div>
+            <div class="mockup-block" style="height:20px;"></div>
+          </div>
+          <div class="mockup-block" style="height:24px;background:#333;"></div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">04</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Size Selection</div>
+    </div>
+
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body">
+          <div class="mockup-block" style="height:10px;width:40%;margin-bottom:8px;"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+            <div class="mockup-row"><div class="mockup-block" style="width:40px;height:40px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center;padding-left:6px;"><div class="mockup-block" style="height:8px;width:70%;"></div><div class="mockup-block" style="height:8px;width:40%;"></div></div></div>
+            <div class="mockup-row"><div class="mockup-block" style="width:40px;height:40px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center;padding-left:6px;"><div class="mockup-block" style="height:8px;width:70%;"></div><div class="mockup-block" style="height:8px;width:40%;"></div></div></div>
+          </div>
+          <div class="mockup-block" style="height:24px;background:#333;margin-top:8px;"></div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">05</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Shopping Bag</div>
+    </div>
+
+    <div class="screen-card">
+      <div class="mockup">
+        <div class="mockup-bar"><div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div></div>
+        <div class="mockup-body" style="align-items:center;justify-content:center;">
+          <div style="text-align:center;">
+            <div style="width:28px;height:28px;border:1px solid #333;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;">
+              <div style="width:10px;height:5px;border-left:1px solid #555;border-bottom:1px solid #555;transform:rotate(-45deg) translate(2px,-1px);"></div>
+            </div>
+            <div class="mockup-block" style="height:8px;width:80px;margin:0 auto 6px;"></div>
+            <div class="mockup-block" style="height:6px;width:100px;margin:0 auto;background:#1a1a1a;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-card-label" style="z-index:2;position:relative;align-self:flex-end;">06</div>
+      <div class="screen-card-title" style="z-index:2;position:relative;">Order Confirmed</div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--mid);margin-top:16px;letter-spacing:0.05em;">
+    * Screens above are schematic representations. Full Figma file available upon request.
+  </p>
+</section>
+
+<!-- REFLECTION -->
+<section class="section fade-up">
+  <div class="section-label"><span>Reflection</span></div>
+
+  <div class="prose">
+    <div class="prose-label">What I Learned</div>
+    <div class="prose-body">
+      <p>Designing for a brand with a strong point of view is different from designing for a generic product category. The brand's philosophy becomes a design constraint — and constraints make better decisions.</p>
+    </div>
+  </div>
+
+  <div class="reflection-grid">
+    <div class="reflection-card dark">
+      <div class="reflection-icon">What worked</div>
+      <div class="reflection-title">Design system first</div>
+      <div class="reflection-body">Building the component library and establishing typographic scale before designing any pages paid off immediately. Consistency across 11 screens came naturally because the system was already in place. No backtracking, no rework.</div>
+    </div>
+    <div class="reflection-card">
+      <div class="reflection-icon">What worked</div>
+      <div class="reflection-title">Treating brand voice as a constraint</div>
+      <div class="reflection-body">Every ambiguous design decision became easy once I started asking "does this serve raw honesty?" The brand manifesto wasn't just inspiration — it was a decision-making tool. I'd bring this approach to every project going forward.</div>
+    </div>
+    <div class="reflection-card">
+      <div class="reflection-icon">What I'd do differently</div>
+      <div class="reflection-title">Earlier user research</div>
+      <div class="reflection-body">I worked primarily from the brand brief and my own assumptions about fashion e-commerce users. With more time, I'd have conducted even a small round of informal interviews to validate that the browsing flow matched how actual shoppers think about discovering and evaluating niche clothing.</div>
+    </div>
+    <div class="reflection-card dark">
+      <div class="reflection-icon">What I'd do differently</div>
+      <div class="reflection-title">Micro-interactions</div>
+      <div class="reflection-body">The static screens are clean, but I didn't explore transitions and interactions in detail. For a brand this intentional, the motion design matters — how the size selector slides in, how items are added to the bag. That layer of craft would complete the experience.</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /max-width wrapper -->
+
+<footer class="case-footer">
+  <div class="case-footer-text">Next: BeerMerch →</div>
+  <a class="case-footer-link" href="https://portfolio-website-6f4cdd.webflow.io/">View all work</a>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

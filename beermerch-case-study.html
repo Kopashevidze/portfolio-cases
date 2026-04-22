@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeerMerch — Case Study / Danil Kopashevidze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0C0C0C;
+    --surface: #141414;
+    --surface2: #1C1C1C;
+    --ink: #F0EDE8;
+    --mid: #666666;
+    --accent: #F5C842;
+    --line: #242424;
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+    --serif: 'Playfair Display', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 15px; letter-spacing: 0.05em;
+    text-decoration: none; color: var(--ink);
+  }
+  .nav-back {
+    font-size: 11px; color: var(--mid); text-decoration: none;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s, color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    margin-top: 61px;
+    padding: 100px 48px 0;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-bg-text {
+    position: absolute;
+    top: 60px; right: -20px;
+    font-size: 240px; font-weight: 500; letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    user-select: none;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+    padding-bottom: 64px;
+  }
+  .hero-label {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(56px, 8vw, 112px);
+    font-weight: 400; line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .accent-word { color: var(--accent); font-style: italic; }
+  .hero-desc {
+    margin-top: 32px;
+    max-width: 460px;
+    color: var(--mid);
+    font-size: 14px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: grid;
+    gap: 0;
+    min-width: 200px;
+    border: 1px solid var(--line);
+  }
+  .meta-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-item:last-child { border-bottom: none; }
+  .meta-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; }
+  .meta-value { font-size: 12px; color: var(--ink); }
+
+  /* ── ACCENT BAND ── */
+  .accent-band {
+    background: var(--accent);
+    color: #111;
+    padding: 16px 48px;
+    display: flex;
+    gap: 48px;
+    overflow: hidden;
+  }
+  .band-item { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; white-space: nowrap; }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--line);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .section-label span { white-space: nowrap; }
+
+  /* ── PROSE ── */
+  .prose {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .prose-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding-top: 3px; }
+  .prose-body { font-family: var(--serif); font-size: 19px; font-weight: 400; line-height: 1.6; color: var(--ink); }
+  .prose-body p + p { margin-top: 0.9em; }
+
+  /* ── CONTEXT BOX ── */
+  .context-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .context-box-title { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .context-box-body { font-size: 14px; line-height: 1.7; color: #aaa; }
+
+  /* ── CHALLENGE GRID ── */
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 32px 0;
+  }
+  .challenge-card {
+    background: var(--surface);
+    padding: 28px 24px;
+  }
+  .challenge-num { font-size: 32px; color: var(--line); font-weight: 300; line-height: 1; margin-bottom: 12px; }
+  .challenge-title { font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--ink); }
+  .challenge-body { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ── PROCESS FLOW ── */
+  .process-flow {
+    display: flex;
+    gap: 0;
+    margin: 32px 0;
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .flow-step {
+    flex: 1;
+    padding: 28px 20px;
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .flow-step:last-child { border-right: none; }
+  .flow-step::after {
+    content: '→';
+    position: absolute; right: -10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 14px;
+    z-index: 1;
+    background: var(--surface);
+    padding: 2px 0;
+  }
+  .flow-step:last-child::after { display: none; }
+  .flow-num { font-size: 9px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  .flow-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .flow-body { font-size: 11px; color: var(--mid); line-height: 1.5; }
+
+  /* ── SCREENS ── */
+  .screens-intro {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    margin-bottom: 32px;
+  }
+  .phone-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 32px 0;
+  }
+  .phone-frame {
+    aspect-ratio: 9/19;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-notch {
+    width: 40%;
+    height: 16px;
+    background: var(--bg);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    flex: 1;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+  }
+  .ph-bar { background: var(--surface2); border-radius: 2px; height: 8px; }
+  .ph-hero { background: linear-gradient(160deg, var(--surface2) 0%, #1a1a18 100%); flex: 2; border-radius: 4px; }
+  .ph-row { display: flex; gap: 3px; }
+  .ph-block { background: var(--surface2); border-radius: 2px; }
+  .ph-accent { background: var(--accent) !important; }
+  .phone-label {
+    text-align: center;
+    font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mid); padding: 6px 4px;
+    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  /* ── DECISIONS ── */
+  .decision-list { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 32px 0; }
+  .decision-row {
+    background: var(--surface);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: background 0.2s;
+  }
+  .decision-row:hover { background: var(--surface2); }
+  .d-num { font-size: 10px; color: var(--accent); letter-spacing: 0.1em; padding-top: 2px; }
+  .d-q { font-family: var(--serif); font-size: 16px; font-style: italic; line-height: 1.4; }
+  .d-a { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ── LIVE BADGE ── */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    padding: 10px 20px;
+    border-radius: 2px;
+    margin: 24px 0;
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+  }
+  .live-text { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+
+  /* ── REFLECTION ── */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  .r-card { background: var(--surface); padding: 32px; }
+  .r-card.highlight { background: var(--accent); color: #111; }
+  .r-type { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 14px; }
+  .r-card.highlight .r-type { color: rgba(0,0,0,0.5); }
+  .r-title { font-family: var(--serif); font-size: 20px; margin-bottom: 10px; }
+  .r-card.highlight .r-title { color: #111; }
+  .r-body { font-size: 12px; color: var(--mid); line-height: 1.7; }
+  .r-card.highlight .r-body { color: rgba(0,0,0,0.6); }
+
+  /* ── FOOTER ── */
+  .case-footer {
+    padding: 64px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .footer-prev { font-family: var(--serif); font-size: 24px; font-style: italic; color: var(--mid); }
+  .footer-link {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .footer-link:hover { opacity: 0.6; }
+
+  /* ── TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+  .tag {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--line); padding: 4px 12px; color: var(--mid);
+  }
+  .tag.accent-tag { border-color: var(--accent); color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .hero { padding: 80px 24px 0; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-bg-text { font-size: 100px; }
+    .section { padding: 48px 24px; }
+    .prose { grid-template-columns: 1fr; gap: 16px; }
+    .challenge-grid { grid-template-columns: 1fr; }
+    .process-flow { flex-direction: column; }
+    .flow-step::after { display: none; }
+    .phone-grid { grid-template-columns: repeat(3, 1fr); }
+    .decision-row { grid-template-columns: 1fr; }
+    .reflection-grid { grid-template-columns: 1fr; }
+    .case-footer { flex-direction: column; gap: 24px; }
+    .accent-band { padding: 16px 24px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">D. Kopashevidze</a>
+  <a class="nav-back" href="https://portfolio-website-6f4cdd.webflow.io/">← Back to portfolio</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">02</div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Case Study — 002</div>
+      <h1>Beer<br><span class="accent-word">Merch</span></h1>
+      <p class="hero-desc">
+        A full-featured e-commerce experience inside Telegram — designed for a real craft beer brand's merchandise shop. From product discovery to order confirmation, entirely within the messenger.
+      </p>
+      <div class="tags">
+        <span class="tag accent-tag">Live Product</span>
+        <span class="tag">Telegram Mini App</span>
+        <span class="tag">UX Design</span>
+        <span class="tag">UI Design</span>
+        <span class="tag">Design System</span>
+      </div>
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        <span class="live-text">Launching soon</span>
+      </div>
+    </div>
+    <div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <div class="meta-label">Role</div>
+          <div class="meta-value">UX &amp; UI Designer</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Platform</div>
+          <div class="meta-value">Telegram Mini App</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Client</div>
+          <div class="meta-value">Real brand — launching</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Theme</div>
+          <div class="meta-value">Dark / Brand yellow</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Screens</div>
+          <div class="meta-value">15+ screens + Admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="accent-band">
+  <span class="band-item">Telegram Mini App</span>
+  <span class="band-item">·</span>
+  <span class="band-item">Full Purchase Flow</span>
+  <span class="band-item">·</span>
+  <span class="band-item">Dark Mode</span>
+  <span class="band-item">·</span>
+  <span class="band-item">2 Delivery Methods</span>
+  <span class="band-item">·</span>
+  <span class="band-item">Admin Panel</span>
+  <span class="band-item">·</span>
+  <span class="band-item">Payment Integration</span>
+  <span class="band-item">·</span>
+  <span class="band-item">Error States</span>
+</div>
+
+<!-- OVERVIEW -->
+<div style="max-width:1200px;margin:0 auto;">
+
+<section class="section fade-up">
+  <div class="section-label"><span>Overview</span></div>
+
+  <div class="prose">
+    <div class="prose-label">Context</div>
+    <div class="prose-body">
+      <p>Telegram Mini Apps are a relatively new frontier for commerce. They run inside the Telegram messenger, which means users never leave the app — the entire shopping experience, from browsing merch to paying, happens in a familiar environment.</p>
+      <p>A real craft beer brand wanted to sell branded merchandise through a Telegram Mini App. They had an audience, a brand identity, and a product. They needed a complete, production-ready UX and UI.</p>
+    </div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-box-title">Why Telegram Mini Apps are interesting to design for</div>
+    <div class="context-box-body">Mini Apps live inside a constrained environment. You inherit Telegram's UI patterns (the bottom sheet, the main button, the header) but still need to design a branded, coherent experience within those constraints. It's a different challenge from open-web design — you're designing within a system, not on a blank canvas.</div>
+  </div>
+
+  <div class="prose">
+    <div class="prose-label">The Task</div>
+    <div class="prose-body">
+      <p>Design the full UX and UI of the merch store: from first open to order confirmed. This included not just the customer-facing app but also an admin panel for order management.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="section fade-up">
+  <div class="section-label"><span>Design Challenges</span></div>
+
+  <div class="challenge-grid">
+    <div class="challenge-card">
+      <div class="challenge-num">01</div>
+      <div class="challenge-title">Platform constraints</div>
+      <div class="challenge-body">Telegram Mini Apps operate within the messenger's chrome. Navigation, back buttons, and the main action button are all partially controlled by Telegram. Designing within this without losing brand identity was the core constraint.</div>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-num">02</div>
+      <div class="challenge-title">Complete checkout flow</div>
+      <div class="challenge-body">A real purchase flow requires multiple delivery options, address entry, payment, and confirmation — all on mobile, all within the Mini App. Every step needed to be frictionless. Drop-off at any point means a lost sale.</div>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-num">03</div>
+      <div class="challenge-title">Edge cases & error states</div>
+      <div class="challenge-body">A production-ready design can't ignore what happens when things go wrong. Empty basket, 404, 505 server errors — every failure state was designed so the user always knows what happened and has a clear path forward.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section fade-up">
+  <div class="section-label"><span>Process</span></div>
+
+  <div class="process-flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-title">Platform Research</div>
+      <div class="flow-body">Studied Telegram Mini App guidelines, constraints, and existing examples to understand the design system I was working within.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-title">Flow Mapping</div>
+      <div class="flow-body">Mapped every possible user path — from first open through each delivery option, payment method, and error state.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-title">Component System</div>
+      <div class="flow-body">Built a design system in Figma: typography, color tokens, icon set, and a full component library before touching screens.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-title">Screen Design</div>
+      <div class="flow-body">Designed all screens including all states — loading, empty, error — to ensure the app is production-complete, not just happy-path.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">05</div>
+      <div class="flow-title">Admin Panel</div>
+      <div class="flow-body">Designed an admin interface for order management, extending the same visual system so both customer and admin sides feel unified.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section class="section fade-up">
+  <div class="section-label"><span>Screens</span></div>
+
+  <div class="screens-intro">
+    <div class="prose-label">Full Coverage</div>
+    <div style="font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--ink);">
+      15+ screens covering every step of the customer journey, plus a complete admin panel for order management.
+    </div>
+  </div>
+
+  <div class="phone-grid">
+    <!-- Homepage -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-hero"></div>
+        <div class="ph-bar ph-accent" style="height:10px;"></div>
+        <div class="ph-row"><div class="ph-block" style="flex:1;height:28px;"></div><div class="ph-block" style="flex:1;height:28px;"></div></div>
+      </div>
+      <div class="phone-label">Homepage</div>
+    </div>
+    <!-- Loading -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="align-items:center;justify-content:center;gap:10px;">
+        <div style="width:28px;height:28px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;"></div>
+        <div class="ph-bar" style="width:50%;"></div>
+      </div>
+      <div class="phone-label">Loading</div>
+    </div>
+    <!-- Catalog -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:40%;"></div>
+        <div class="ph-row"><div class="ph-block" style="flex:1;height:50px;"></div><div class="ph-block" style="flex:1;height:50px;"></div></div>
+        <div class="ph-row"><div class="ph-block" style="flex:1;height:50px;"></div><div class="ph-block" style="flex:1;height:50px;"></div></div>
+      </div>
+      <div class="phone-label">Catalog</div>
+    </div>
+    <!-- Product -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-hero" style="flex:2;"></div>
+        <div class="ph-bar" style="width:70%;"></div>
+        <div class="ph-bar" style="width:40%;"></div>
+        <div class="ph-bar ph-accent" style="height:10px;"></div>
+      </div>
+      <div class="phone-label">Product</div>
+    </div>
+    <!-- Basket -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:50%;"></div>
+        <div class="ph-row"><div class="ph-block" style="width:28px;height:28px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;padding-left:4px;"><div class="ph-bar" style="width:80%;"></div><div class="ph-bar" style="width:50%;"></div></div></div>
+        <div class="ph-row"><div class="ph-block" style="width:28px;height:28px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;padding-left:4px;"><div class="ph-bar" style="width:80%;"></div><div class="ph-bar" style="width:50%;"></div></div></div>
+        <div class="ph-bar ph-accent" style="height:10px;margin-top:auto;"></div>
+      </div>
+      <div class="phone-label">Basket</div>
+    </div>
+    <!-- Order self-pickup -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+        <div class="ph-bar ph-accent" style="height:10px;margin-top:auto;"></div>
+      </div>
+      <div class="phone-label">Self-pickup</div>
+    </div>
+    <!-- Order CDEK -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-block" style="height:40px;width:100%;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+        <div class="ph-bar ph-accent" style="height:10px;margin-top:auto;"></div>
+      </div>
+      <div class="phone-label">CDEK Delivery</div>
+    </div>
+    <!-- Payment -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-bar" style="width:50%;"></div>
+        <div class="ph-block" style="height:40px;width:100%;border:1px solid #333;"></div>
+        <div class="ph-row"><div class="ph-block" style="flex:1;height:28px;border:1px solid #333;"></div><div class="ph-block" style="flex:1;height:28px;border:1px solid #333;"></div></div>
+        <div class="ph-bar ph-accent" style="height:10px;margin-top:auto;"></div>
+      </div>
+      <div class="phone-label">Payment</div>
+    </div>
+    <!-- Confirmed -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="align-items:center;justify-content:center;gap:8px;">
+        <div style="width:32px;height:32px;border:1px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:12px;height:6px;border-left:1px solid var(--accent);border-bottom:1px solid var(--accent);transform:rotate(-45deg) translate(2px,-1px);"></div></div>
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-bar" style="width:40%;height:6px;"></div>
+      </div>
+      <div class="phone-label">Confirmed</div>
+    </div>
+    <!-- Account -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--surface2);margin:4px auto;"></div>
+        <div class="ph-bar" style="width:50%;margin:0 auto;"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;margin-top:8px;">
+          <div class="ph-bar" style="height:18px;"></div>
+          <div class="ph-bar" style="height:18px;"></div>
+          <div class="ph-bar" style="height:18px;"></div>
+        </div>
+      </div>
+      <div class="phone-label">Account</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px;">
+    <!-- Empty -->
+    <div class="phone-frame" style="aspect-ratio:9/16;max-width:120px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="align-items:center;justify-content:center;gap:8px;">
+        <div style="width:28px;height:28px;background:var(--surface2);border-radius:2px;"></div>
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+      </div>
+      <div class="phone-label">Empty Basket</div>
+    </div>
+    <!-- 404 -->
+    <div class="phone-frame" style="aspect-ratio:9/16;max-width:120px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="align-items:center;justify-content:center;gap:6px;">
+        <div style="font-size:22px;color:var(--mid);font-weight:300;">404</div>
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+      </div>
+      <div class="phone-label">404 Error</div>
+    </div>
+    <!-- 505 -->
+    <div class="phone-frame" style="aspect-ratio:9/16;max-width:120px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="align-items:center;justify-content:center;gap:6px;">
+        <div style="font-size:22px;color:var(--mid);font-weight:300;">505</div>
+        <div class="ph-bar" style="width:60%;"></div>
+        <div class="ph-bar" style="width:80%;height:6px;"></div>
+      </div>
+      <div class="phone-label">505 Error</div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--mid);margin-top:16px;letter-spacing:0.04em;">* Screens above are schematic representations. Full Figma prototype available upon request.</p>
+</section>
+
+<!-- DECISIONS -->
+<section class="section fade-up">
+  <div class="section-label"><span>Key Decisions</span></div>
+
+  <div class="decision-list">
+    <div class="decision-row">
+      <div class="d-num">01</div>
+      <div class="d-q">Why dark theme throughout?</div>
+      <div class="d-a">The brand aesthetic and the Telegram night mode context both pushed toward dark. More importantly, dark UI with a bold yellow accent creates a distinctive identity — this app looks like nothing else in a user's Telegram.</div>
+    </div>
+    <div class="decision-row">
+      <div class="d-num">02</div>
+      <div class="d-q">Why two separate delivery flows (self-pickup + CDEK)?</div>
+      <div class="d-a">Combining them into one form would create conditional logic that confuses users. Separating them into distinct, focused screens means each flow only shows what's relevant. Fewer fields visible = less anxiety at checkout.</div>
+    </div>
+    <div class="decision-row">
+      <div class="d-num">03</div>
+      <div class="d-q">Why design error states and edge cases in detail?</div>
+      <div class="d-a">This is a real product going live. A beautiful happy path that breaks on errors is a bad product. Users who hit a 404 with no recovery path abandon immediately. Every edge case designed = fewer lost customers.</div>
+    </div>
+    <div class="decision-row">
+      <div class="d-num">04</div>
+      <div class="d-q">Why include an admin panel in scope?</div>
+      <div class="d-a">The shop is useless without someone managing orders. Including the admin panel in the design scope ensures the system is thought of holistically — not just the customer experience, but the operational one too.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section class="section fade-up">
+  <div class="section-label"><span>Reflection</span></div>
+
+  <div class="reflection-grid">
+    <div class="r-card highlight">
+      <div class="r-type">What worked</div>
+      <div class="r-title">Thinking in systems</div>
+      <div class="r-body">Building the component library first — typography tokens, color variables, icon set — meant scaling to 15+ screens was methodical, not chaotic. Every new screen was assembly, not invention from scratch.</div>
+    </div>
+    <div class="r-card">
+      <div class="r-type">What worked</div>
+      <div class="r-title">Designing for the real context</div>
+      <div class="r-body">Telegram Mini Apps aren't just "mobile apps in a box." Users are in their messenger, probably mid-conversation. Decisions about loading states, transitions, and the persistent main button were all informed by that context.</div>
+    </div>
+    <div class="r-card">
+      <div class="r-type">What I'd do differently</div>
+      <div class="r-title">User testing before handoff</div>
+      <div class="r-body">Given the tight scope, I didn't run any usability testing on the checkout flow. The delivery method split felt logical to me as a designer, but I'd want to validate it with actual users to confirm it reduces friction rather than adding a step.</div>
+    </div>
+    <div class="r-card">
+      <div class="r-type">What I'd do differently</div>
+      <div class="r-title">Onboarding flow</div>
+      <div class="r-body">The app opens directly to a homepage. For a brand's first-time visitors, a brief onboarding moment — what this is, why it's worth exploring — could improve initial engagement. I'd explore that in a next iteration.</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer style="border-top:1px solid var(--line);margin-top:0;">
+  <div class="case-footer">
+    <div class="footer-prev">← FashionBrand</div>
+    <a class="footer-link" href="https://portfolio-website-6f4cdd.webflow.io/">View all work</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
